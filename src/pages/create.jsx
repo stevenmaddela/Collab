@@ -29,11 +29,15 @@ export default function Create() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // if (validateInput(inputs.username, inputs.email, inputs.password)) {
-    // let user = new User(inputs.username, inputs.email, inputs.password);
-    writeProjectData("jc", inputs.title, inputs.description); // TODO: change to user id
-    alert(inputs.title + "\n" + inputs.description + "\n");
-    // }
+    if (validateTitle(inputs.title)) {
+      if (inputs.description == null) {
+        inputs.description = "A new project.";
+      }
+      writeProjectData("jc", inputs.title, inputs.description); // TODO: change to user id
+      alert(inputs.title + "\n" + inputs.description + "\n");
+    } else {
+      alert("Invalid Title");
+    }
   };
 
   return (
