@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { getAuth } from "firebase/auth";
 import { writeProjectData } from "@component/rtdb_write_new_project";
+import { useRouter } from "next/router";
 
 export function validateTitle(inputName) {
   if (inputName == null || inputName.length == 0) {
@@ -20,6 +21,13 @@ export function validateTitle(inputName) {
 }
 
 export default function Create() {
+  const router = useRouter();
+
+  // const redirect = () => {
+  //   router.push("projects/" + inputs.title);
+  //   return null;
+  // };
+
   //   const user = getAuth().currentUser;
   const [inputs, setInputs] = useState({});
   const handleChange = (event) => {
@@ -34,7 +42,7 @@ export default function Create() {
         inputs.description = "A new project.";
       }
       writeProjectData("jc", inputs.title, inputs.description); // TODO: change to user id
-      alert(inputs.title + "\n" + inputs.description + "\n");
+      router.push("/projects/" + inputs.title); // navigate to project page
     } else {
       alert("Invalid Title");
     }
