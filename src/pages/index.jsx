@@ -1,4 +1,5 @@
-import { useRouter } from "next/router";
+import Project from "@component/components/project";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -34,17 +35,21 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
 
-export default function Manage() {
+export default function Home() {
   const router = useRouter();
-  const { pid } = router.query;
-
+  const redirectCreate = () => {
+    router.push("/create");
+  };
+  const redirectSignIn = () => {
+    router.push("/login");
+  };
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            {pid}
+            Collab
           </Typography>
         </Toolbar>
       </AppBar>
@@ -65,7 +70,7 @@ export default function Manage() {
               color="text.primary"
               gutterBottom
             >
-              {pid}
+              Welcome to Collab
             </Typography>
             <Typography
               variant="h5"
@@ -73,9 +78,7 @@ export default function Manage() {
               color="text.secondary"
               paragraph
             >
-              Something short and leading about the collection below—its
-              contents, the creator, etc. Make it short and sweet, but not too
-              short so folks don&apos;t simply skip over it entirely.
+              The all in one project tool to simplify workflows
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -83,13 +86,17 @@ export default function Manage() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained">Main call to action</Button>
-              <Button variant="outlined">Secondary action</Button>
+              <Button onClick={redirectCreate} variant="contained">
+                Create New Project
+              </Button>
+              <Button onClick={redirectSignIn} variant="outlined">
+                Sign In
+              </Button>
             </Stack>
           </Container>
         </Box>
-        <Container sx={{ py: 8 }} maxWidth="md">
-          {/* End hero unit */}
+        {/* <Container sx={{ py: 8 }} maxWidth="md">
+          
           <Grid container spacing={4}>
             {cards.map((card) => (
               <Grid item key={card} xs={12} sm={6} md={4}>
@@ -126,10 +133,10 @@ export default function Manage() {
               </Grid>
             ))}
           </Grid>
-        </Container>
+        </Container> */}
       </main>
       {/* Footer */}
-      <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
+      {/* <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
           Footer
         </Typography>
@@ -142,7 +149,7 @@ export default function Manage() {
           Something here to give the footer a purpose!
         </Typography>
         <Copyright />
-      </Box>
+      </Box> */}
       {/* End footer */}
     </ThemeProvider>
   );
