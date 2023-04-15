@@ -41,7 +41,7 @@ export default function Home() {
     router.push("/create");
   };
   const redirectSignIn = () => {
-    router.push("/login");
+    router.push("/signup");
   };
   return (
     <ThemeProvider theme={theme}>
