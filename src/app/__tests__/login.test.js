@@ -1,4 +1,4 @@
-import OnboardingPage from "@component/pages/onboarding";
+import OnboardingPage from "@component/pages/login";
 import { render } from "@testing-library/react";
 import '@testing-library/jest-dom'
 
