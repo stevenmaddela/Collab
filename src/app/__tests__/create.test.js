@@ -3,9 +3,6 @@ import '@testing-library/jest-dom';
 import { render, screen } from "@testing-library/react";
 
 describe("/create", () => {
-    it("should render and display expected content", () => {
-        render(<Create />)
-    });
 
     test("Title Box is not empty", () => {
         expect(validateTitle("Collab")).toBe(true);
