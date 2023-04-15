@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getAuth } from "firebase/auth";
 import { writeProjectData } from "@component/rtdb_write_new_project";
 import { useRouter } from "next/router";
+import { Button, TextField, Typography } from "@mui/material";
 
 export function validateTitle(inputName) {
   if (inputName == null || inputName.length == 0) {
@@ -23,11 +24,6 @@ export function validateTitle(inputName) {
 export default function Create() {
   const router = useRouter();
 
-  // const redirect = () => {
-  //   router.push("projects/" + inputs.title);
-  //   return null;
-  // };
-
   //   const user = getAuth().currentUser;
   const [inputs, setInputs] = useState({});
   const handleChange = (event) => {
@@ -41,7 +37,7 @@ export default function Create() {
       if (inputs.description == null) {
         inputs.description = "A new project.";
       }
-      writeProjectData("jc", inputs.title, inputs.description); // TODO: change to user id
+      writeProjectData("users/", inputs.title, inputs.description);
       router.push("/projects/" + inputs.title); // navigate to project page
     } else {
       alert("Invalid Title");
@@ -49,30 +45,53 @@ export default function Create() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Enter Project Title:
-        <input
+    <div>
+      <Typography align="center" variant="h3" margin={"10px"} paddingTop={25}>
+        Create a New Project
+      </Typography>
+
+      <form onSubmit={handleSubmit} align="center">
+        <TextField
+          style={{ margin: "10px" }}
           type="text"
           value={inputs.title || ""}
           aria-label="project title"
           placeholder="Enter Title"
           name="title"
           onChange={handleChange}
-        />
-      </label>
-      <label>
-        Enter a Brief Description:
-        <input
+        >
+          Enter Project Title:
+        </TextField>
+        <br />
+        <TextField
+          style={{ margin: "10px" }}
           type="text"
           value={inputs.description || ""}
           aria-label="project description"
           placeholder="Enter Description"
           name="description"
           onChange={handleChange}
-        />
-      </label>
-      <input type="submit" />
-    </form>
+        >
+          Enter a Brief Description:
+          <input
+            type="text"
+            value={inputs.description || ""}
+            aria-label="project description"
+            placeholder="Enter Description"
+            name="description"
+            onChange={handleChange}
+          />
+        </TextField>
+        <br />
+        <Button
+          style={{ margin: "10px" }}
+          onClick={handleSubmit}
+          variant="contained"
+          color="primary"
+        >
+          Submit
+        </Button>
+      </form>
+    </div>
   );
 }
