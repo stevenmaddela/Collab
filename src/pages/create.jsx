@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getAuth } from "firebase/auth";
+import { auth } from "@component/firebaseConfig";
 import { writeProjectData } from "@component/rtdb_write_new_project";
 import { useRouter } from "next/router";
 import { Button, TextField, Typography } from "@mui/material";
@@ -22,9 +22,12 @@ export function validateTitle(inputName) {
 }
 
 export default function Create() {
-  const router = useRouter();
+  const user = auth.currentUser;
+  useEffect(() => {
+    if (user == null) router.push("/login");
+  });
 
-  //   const user = getAuth().currentUser;
+  const router = useRouter();
   const [inputs, setInputs] = useState({});
   const handleChange = (event) => {
     const name = event.target.name;

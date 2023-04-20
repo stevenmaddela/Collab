@@ -1,5 +1,5 @@
 import Project from "@component/components/project";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -17,6 +17,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { auth } from "@component/firebaseConfig";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import IconButton from "@mui/material/IconButton";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import { signOut } from "firebase/auth";
 
 function Copyright() {
   return (
@@ -36,23 +42,41 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const theme = createTheme();
 
 export default function Home() {
+  const user = auth.currentUser;
+  useEffect(() => {
+    if (user == null) router.push("/login");
+  });
+
   const router = useRouter();
   const redirectCreate = () => {
     router.push("/create");
   };
-  const redirectSignIn = () => {
-    router.push("/signup");
+  const redirectIndex = () => {
+    router.push("/");
   };
+
+  const signoutUser = () => {
+    signOut(auth).then(() => {
+      redirectIndex();
+    });
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar position="relative">
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Collab
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="relative">
+          <Toolbar>
+            <Typography variant="h6" color="inherit" sx={{ flexGrow: 1 }}>
+              Collab
+            </Typography>
+            <Button color="inherit" onClick={signoutUser}>
+              Log Out
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
+
       <main>
         {/* Hero unit */}
         <Box

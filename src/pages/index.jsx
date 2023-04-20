@@ -37,10 +37,10 @@ const theme = createTheme();
 
 export default function Home() {
   const router = useRouter();
-  const redirectCreate = () => {
-    router.push("/create");
+  const redirectLogin = () => {
+    router.push("/login");
   };
-  const redirectSignIn = () => {
+  const redirectSignUp = () => {
     router.push("/signup");
   };
   return (
@@ -86,8 +86,11 @@ export default function Home() {
               spacing={2}
               justifyContent="center"
             >
-              <Button onClick={redirectSignIn} variant="outlined">
-                Sign In
+              <Button onClick={redirectLogin} variant="contained">
+                Log In
+              </Button>
+              <Button onClick={redirectSignUp} variant="outlined">
+                Sign Up
               </Button>
             </Stack>
           </Container>
