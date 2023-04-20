@@ -37,7 +37,7 @@ export function validatePassword(inputPassword) {
     return "Enter a password\n";
   }
   if (inputPassword.length < 6) {
-    return "Password must be 6 characters long";
+    return "Password must be at least 6 characters long";
   }
   if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*/.test(inputPassword)) {
     return "Ensure your password has 1 uppercase, lowercase, and number\n";
