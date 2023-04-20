@@ -63,11 +63,14 @@ export default function SignupForm() {
           const user = userCredential.user;
           // add display name to user
           updateProfile(user, {
-            displayName: inputs.name,
-          }).catch((error) => {
-            alert("Error updating user's account : " + error);
-          });
-          router.push("/home");
+            displayName: inputs.username,
+          })
+            .then(() => {
+              router.push("/home");
+            })
+            .catch((error) => {
+              alert("Error updating user's account : " + error);
+            });
         })
         .catch((error) => {
           alert("Error creating user: " + error);

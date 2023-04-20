@@ -94,7 +94,7 @@ export default function Home() {
               color="text.primary"
               gutterBottom
             >
-              Welcome to Collab
+              Welcome {user.displayName}
             </Typography>
             <Typography
               variant="h5"
