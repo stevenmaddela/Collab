@@ -1,4 +1,4 @@
-import LoginForm from "@component/components/login-form";
+import SignupForm from "@component/components/signup-form";
 import { Box, Typography } from "@mui/material";
 
 export default function OnboardingPage() {
@@ -11,7 +11,7 @@ export default function OnboardingPage() {
       </Typography>
       <Box sx={{ display: "inline-flex", flexDirection: "row" }}>
         <img src="v2_25.png" width={"400px"} height={"80%"} />
-        <LoginForm />
+        <SignupForm />
       </Box>
     </div>
   );

@@ -86,8 +86,8 @@ export default function Home() {
               spacing={2}
               justifyContent="center"
             >
-              <Button onClick={redirectSignIn} variant="outlined">
-                Sign In
+              <Button onClick={redirectCreate} variant="contained">
+                Create New Project
               </Button>
             </Stack>
           </Container>

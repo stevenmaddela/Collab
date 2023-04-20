@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Button, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "@component/firebaseConfig";
 
 class User {
   constructor(name, email, password) {
@@ -34,13 +36,17 @@ export function validatePassword(inputPassword) {
   if (inputPassword == null || inputPassword.length == 0) {
     return "Enter a password\n";
   }
+  if (inputPassword.length < 6) {
+    return "Password must be 6 characters long";
+  }
   if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*/.test(inputPassword)) {
     return "Ensure your password has 1 uppercase, lowercase, and number\n";
   }
+
   return "";
 }
 
-export default function LoginForm() {
+export default function SignupForm() {
   const [inputs, setInputs] = useState({});
   const router = useRouter();
 
@@ -52,9 +58,20 @@ export default function LoginForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (validateInput(inputs.username, inputs.email, inputs.password)) {
-      let user = new User(inputs.username, inputs.email, inputs.password);
-      //   alert(inputs.username + "\n" + inputs.email + "\n" + inputs.password);
-      router.push("/");
+      createUserWithEmailAndPassword(auth, inputs.email, inputs.password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          // add display name to user
+          updateProfile(user, {
+            displayName: inputs.name,
+          }).catch((error) => {
+            alert("Error updating user's account : " + error);
+          });
+          router.push("/home");
+        })
+        .catch((error) => {
+          alert("Error creating user: " + error);
+        });
     }
   };
 

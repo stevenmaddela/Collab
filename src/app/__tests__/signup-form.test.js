@@ -1,5 +1,5 @@
-import LoginForm from "@component/components/login-form";
-import { validateName, validateEmail, validatePassword } from "@component/components/login-form";
+import SignupForm from "@component/components/signup-form";
+import { validateName, validateEmail, validatePassword } from "@component/components/signup-form";
 import { render, screen } from "@testing-library/react";
 import '@testing-library/jest-dom';
 
@@ -11,9 +11,9 @@ const EMPTY_NAME = "Enter a name\n";
 const EMPTY_EMAIL = "Enter an email address\n";
 const EMPTY_PASSWORD = "Enter a password\n";
 
-describe("<LoginForm />", () => {
+describe("<SignupForm />", () => {
     it("Should render properly", () => {
-        render(<LoginForm />)
+        render(<SignupForm />)
     });
 
     test("Name box prevents numberical and special characters", () => {
