@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { auth } from "@component/firebaseConfig";
 import { writeProjectData } from "@component/rtdb_write_new_project";
 import { useRouter } from "next/router";
