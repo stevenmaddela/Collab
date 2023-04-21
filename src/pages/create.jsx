@@ -40,7 +40,7 @@ export default function Create() {
       if (inputs.description == null) {
         inputs.description = "A new project.";
       }
-      writeProjectData("users/", inputs.title, inputs.description);
+      writeProjectData(user.uid, inputs.title, inputs.description);
       router.push("/projects/" + inputs.title); // navigate to project page
     } else {
       alert("Invalid Title");

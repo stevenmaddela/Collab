@@ -16,6 +16,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { redirect } from "next/navigation";
+import { auth } from "@component/firebaseConfig";
+import { signOut } from "firebase/auth";
 
 function Copyright() {
   return (
@@ -37,6 +40,17 @@ const theme = createTheme();
 export default function Manage() {
   const router = useRouter();
   const { pid } = router.query;
+  const user = auth.currentUser;
+
+  useEffect(() => {
+    if (user == null) router.push("/login");
+  });
+
+  const signoutUser = () => {
+    signOut(auth).then(() => {
+      router.push("/login");
+    });
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -44,8 +58,11 @@ export default function Manage() {
       <AppBar position="relative">
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            {pid}
+            Collab
           </Typography>
+          <Button color="inherit" onClick={signoutUser}>
+            Log Out
+          </Button>
         </Toolbar>
       </AppBar>
       <main>
@@ -73,9 +90,7 @@ export default function Manage() {
               color="text.secondary"
               paragraph
             >
-              Something short and leading about the collection below—its
-              contents, the creator, etc. Make it short and sweet, but not too
-              short so folks don&apos;t simply skip over it entirely.
+              {"" /*description */}
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -83,8 +98,8 @@ export default function Manage() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained">Main call to action</Button>
-              <Button variant="outlined">Secondary action</Button>
+              <Button variant="contained">Create Task</Button>
+              <Button variant="outlined">Schedule Meeting</Button>
             </Stack>
           </Container>
         </Box>
@@ -100,7 +115,7 @@ export default function Manage() {
                     flexDirection: "column",
                   }}
                 >
-                  <CardMedia
+                  {/* <CardMedia
                     component="img"
                     sx={{
                       // 16:9
@@ -108,15 +123,12 @@ export default function Manage() {
                     }}
                     image="https://source.unsplash.com/random"
                     alt="random"
-                  />
+                  /> */}
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      Task {card}
                     </Typography>
-                    <Typography>
-                      This is a media card. You can use this section to describe
-                      the content.
-                    </Typography>
+                    <Typography>Task description goes here.</Typography>
                   </CardContent>
                   <CardActions>
                     <Button size="small">View</Button>
