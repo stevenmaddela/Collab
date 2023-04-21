@@ -1,5 +1,5 @@
 import Project from "@component/components/project";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -43,9 +43,6 @@ const theme = createTheme();
 
 export default function Home() {
   const user = auth.currentUser;
-  useEffect(() => {
-    if (user == null) router.push("/login");
-  });
 
   const router = useRouter();
   const redirectCreate = () => {
@@ -60,6 +57,12 @@ export default function Home() {
       redirectIndex();
     });
   };
+
+  useEffect(() => {
+    if (user == null) {
+      router.push("/login");
+    }
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -94,7 +97,7 @@ export default function Home() {
               color="text.primary"
               gutterBottom
             >
-              Welcome {user.displayName}
+              Welcome {user ? user.displayName : "user"}
             </Typography>
             <Typography
               variant="h5"
