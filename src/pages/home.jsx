@@ -51,6 +51,9 @@ export default function Home() {
   const redirectCreate = () => {
     router.push("/create");
   };
+  const redirectSchedule = () => {
+    router.push("/schedule");
+  };
   const redirectIndex = () => {
     router.push("/");
   };
@@ -94,7 +97,7 @@ export default function Home() {
               color="text.primary"
               gutterBottom
             >
-              Welcome {user.displayName}
+              Welcome 
             </Typography>
             <Typography
               variant="h5"
@@ -112,6 +115,9 @@ export default function Home() {
             >
               <Button onClick={redirectCreate} variant="contained">
                 Create New Project
+              </Button>
+              <Button onClick={redirectSchedule} variant="contained">
+                Schedule a Meeting
               </Button>
             </Stack>
           </Container>
