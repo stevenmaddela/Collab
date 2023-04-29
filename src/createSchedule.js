@@ -5,6 +5,6 @@ export function writeProjectData(userId, title, description) {
     // const db = getDatabase();
     set(ref(db, 'schedule/' + userId + '/' + title), {
         title: title,
-        description: description,
+        description: description
     });
 }
