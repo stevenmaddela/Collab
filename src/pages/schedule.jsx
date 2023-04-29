@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { auth } from "@component/firebaseConfig";
-import { writeProjectData } from "@component/rtdb_write_new_project";
+import { writeProjectData } from "@component/createSchedule";
 import { useRouter } from "next/router";
 import { Button, TextField, Typography } from "@mui/material";
 import DateTimePicker from 'react-datetime-picker';
