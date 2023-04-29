@@ -6,8 +6,5 @@ export function writeProjectData(userId, title, description) {
     set(ref(db, 'schedule/' + userId + '/' + title), {
         title: title,
         description: description,
-        tasks:{},
-        members: [userId],
-        projectLeader: userId
     });
 }
