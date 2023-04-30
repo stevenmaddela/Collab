@@ -53,7 +53,7 @@ export default function Schedule() {
       writeProjectData("users/", inputs.title, inputs.description);
       
       alert("meeting is scheduled");
-      router.push("/") 
+      router.push("/home") 
     } else {
       alert("Invalid Title");
     }
