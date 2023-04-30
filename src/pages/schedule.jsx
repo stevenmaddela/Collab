@@ -49,9 +49,10 @@ export default function Schedule() {
       if (inputs.description == null) {
         inputs.description = "Scheduled Meeting";
       }
-      writeScheduleData(user.uid, inputs.title, inputs.description);
-      router.push("/schedule");
-      alert("meeting is scheduled"); // navigate to project page
+      writeProjectData("users/", inputs.title, inputs.description);
+
+      alert("meeting is scheduled");
+      router.push("/home");
     } else {
       alert("Invalid Title");
     }
