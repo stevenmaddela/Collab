@@ -19,6 +19,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { redirect } from "next/navigation";
 import { auth } from "@component/firebaseConfig";
 import { signOut } from "firebase/auth";
+import { createTaskWithTitle } from "@component/CreateTask";
 
 function Copyright() {
   return (
@@ -52,8 +53,16 @@ export default function Manage() {
     });
   };
 
-  const redirectTask = () => {
-    router.push("/projects/" + pid + "/tasks");
+  const redirectTask = async () => {
+    const taskTitle = prompt('Enter task title');
+    if (taskTitle) {
+      try {
+        const task = await createTaskWithTitle(pid, taskTitle);
+        router.push('/projects/'+ pid + '/tasks/' + task.id);
+      } catch (error) {
+        console.error('Failed to create task:', error);
+      }
+    }
   };
 
   return (
