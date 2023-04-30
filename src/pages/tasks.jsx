@@ -71,7 +71,7 @@ export default function Task() {
   
     const handleSubmit = async (e) => {
       e.preventDefault();
-      const userId = auth.currentUser.uid
+      const userId = auth.currentUser.uid;
       const taskRef = await createTaskWithTitle(
         userId,
         projectTitle,
