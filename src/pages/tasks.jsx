@@ -40,14 +40,14 @@ export default function Task() {
   const [updatedText, setUpdatedText] = useState("");
   const user = auth.currentUser;
   const handleChange = (e) => {
-    setTaskTitle(e.target.value);
+    setNewItem(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateTitle(taskTitle)) {
-      createTaskWithTitle(user.uid, taskTitle);
-      router.push("/task/" + taskTitle); // navigate to project page
+    if (validateTitle(newItem)) {
+      createTaskWithTitle(user.uid, newItem);
+      router.push("/task/" + newItem); // navigate to project page
     } else {
       alert("Invalid Title");
     }
@@ -115,7 +115,7 @@ export default function Task() {
         <input
           type="text"
           placeholder="Add a task..."
-          value={inputs.taskTitle}
+          value={newItem}
           onChange={handleChange}
         />
   
