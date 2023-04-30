@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { createTaskWithTitle} from "@component/CreateTask";
+import { auth } from "@component/firebaseConfig";
 
 export function validateTitle(inputName) {
   if (inputName == null || inputName.length == 0) {
