@@ -4,6 +4,24 @@ import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
+import { createTaskWithTitle} from "@component/CreateTask";
+
+export function validateTitle(inputName) {
+  if (inputName == null || inputName.length == 0) {
+    return false;
+  }
+  // check for string of only spaces, tabs, or line breaks
+  if (!inputName.replace(/\s/g, "").length) {
+    return false;
+  }
+
+  // check for no special characters
+  if (/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(inputName)) {
+    return false;
+  }
+
+  return true;
+}
 
 export default function Task() {
   const router = useRouter();
@@ -18,7 +36,20 @@ export default function Task() {
 
   const [showEdit, setShowEdit] = useState(-1);
   const [updatedText, setUpdatedText] = useState("");
+  const user = auth.currentUser;
+  const handleChange = (e) => {
+    setNewItem(e.target.value);
+  };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validateTitle(newItem)) {
+      createTaskWithTitle(user.uid, newItem);
+    } else {
+      alert("Invalid Title");
+    }
+ 
+  };
   // Helper Functions
 
   /* Adds a new item to the list array*/
