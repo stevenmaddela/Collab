@@ -72,16 +72,11 @@ export default function Task() {
     const handleSubmit = async (e) => {
       e.preventDefault();
       const userId = auth.currentUser.uid;
-      const taskRef = await createTaskWithTitle(
-        userId,
-        projectTitle,
-        title,
-        dueDate,
-        assignedTo
-      );
+      const taskRef = await createTaskWithTitle(userId, taskTitle);
       console.log("New task created with ID:", taskRef.key);
       router.push('/projects/'+ projectTitle);
     };
+
   
     // Main part of app
     return (
