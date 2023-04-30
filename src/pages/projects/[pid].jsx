@@ -20,6 +20,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@component/firebaseConfig";
 import { signOut } from "firebase/auth";
 
+
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -50,6 +51,10 @@ export default function Manage() {
     signOut(auth).then(() => {
       router.push("/login");
     });
+  };
+
+const redirectTask = () => {
+    router.push("/projects/" + pid + "/tasks");
   };
 
   return (
@@ -98,7 +103,9 @@ export default function Manage() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained">Create Task</Button>
+              <Button variant="contained" onClick={redirectTask}>
+                Create Task
+              </Button>
               <Button variant="outlined">Schedule Meeting</Button>
             </Stack>
           </Container>
