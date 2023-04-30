@@ -4,7 +4,8 @@ import React, {useState} from "react";
 import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-
+import { auth } from "@component/firebaseConfig";
+import { createTaskWithTitle} from "@component/CreateTask";
 export default function Task() {
   
 
@@ -67,6 +68,20 @@ export default function Task() {
       setUpdatedText("");
       setShowEdit(-1);
     }
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      const userId = auth.currentUser.uid
+      const taskRef = await createTaskWithTitle(
+        userId,
+        projectTitle,
+        title,
+        dueDate,
+        assignedTo
+      );
+      console.log("New task created with ID:", taskRef.key);
+      router.push('/projects/'+ projectTitle);
+    };
   
     // Main part of app
     return (
