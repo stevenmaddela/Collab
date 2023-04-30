@@ -1,10 +1,10 @@
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Box, Typography } from "@mui/material";
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { createTaskWithTitle} from "@component/CreateTask";
+import { createTaskWithTitle } from "@component/CreateTask";
 import { auth } from "@component/firebaseConfig";
 
 export function validateTitle(inputName) {
@@ -26,6 +26,8 @@ export function validateTitle(inputName) {
 
 export default function Task() {
   const router = useRouter();
+  const projectTitle = useSearchParams().get("projectTitle");
+  console.log("projectTitle: " + projectTitle);
   const redirectHome = () => {
     router.push("/home");
   };
@@ -45,10 +47,14 @@ export default function Task() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateTitle(newItem)) {
-      const newItemId = await createTaskWithTitle(user.uid, newItem);
+      const newItemId = await createTaskWithTitle(
+        user.uid,
+        newItem,
+        projectTitle
+      );
       const newItemData = {
         id: newItemId,
-        value: newItem
+        value: newItem,
       };
       setItems((prevState) => [...prevState, newItemData]);
       setNewItem("");
@@ -56,8 +62,7 @@ export default function Task() {
       alert("Invalid Title");
     }
   };
-  
-  
+
   // Helper Functions
 
   /* Adds a new item to the list array*/
@@ -150,7 +155,7 @@ export default function Task() {
                 </button>
               </li>
 
-              {showEdit == item.id &&(
+              {showEdit == item.id && (
                 <div>
                   <input
                     type="text"

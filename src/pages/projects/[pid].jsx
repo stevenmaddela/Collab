@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter, Router } from "next/router";
 import { useEffect } from "react";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -14,12 +14,11 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Link from "@mui/material/Link";
+import Link from "next/link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { redirect } from "next/navigation";
 import { auth } from "@component/firebaseConfig";
 import { signOut } from "firebase/auth";
-
 
 function Copyright() {
   return (
@@ -43,9 +42,9 @@ export default function Manage() {
   const { pid } = router.query;
   const user = auth.currentUser;
 
-  useEffect(() => {
-    if (user == null) router.push("/login");
-  });
+  // useEffect(() => {
+  //   if (user == null) router.push("/login");
+  // });
 
   const signoutUser = () => {
     signOut(auth).then(() => {
@@ -53,8 +52,12 @@ export default function Manage() {
     });
   };
 
-const redirectTask = () => {
-    router.push("/projects/" + pid + "/tasks");
+  const redirectTask = () => {
+    // Router.push({
+    //   pathname: "/projects/" + pid + "/tasks",
+    //   query: { projectTitle: pid },
+    // });
+    //router.push("/projects/" + pid + "/tasks");
   };
 
   return (
@@ -103,9 +106,17 @@ const redirectTask = () => {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained" onClick={redirectTask}>
-                Create Task
-              </Button>
+              <Link
+                href={{
+                  pathname: "/projects/" + pid + "/tasks",
+                  query: { projectTitle: pid },
+                }}
+              >
+                <Button variant="contained" onClick={redirectTask}>
+                  Create Task
+                </Button>
+              </Link>
+
               <Button variant="outlined">Schedule Meeting</Button>
             </Stack>
           </Container>
