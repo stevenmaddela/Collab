@@ -1,13 +1,11 @@
-import { getDatabase, ref, push } from "firebase/database";
+import { getDatabase, ref, set } from "firebase/database";
 import { db, auth } from "./firebaseConfig";
 
-export function createTaskWithTitle(taskTitle) {
-  const userId = auth.currentUser.uid;
-  const taskRef = push(ref(db, 'users/'+ userId+ '/tasks'));
-  taskRef.set({
+export function createTaskWithTitle(userId, taskTitle) {
+  set(ref(db, 'users/'+ userId+ '/tasks' + taskTitle), {
     title: taskTitle,
-    //createdAt: new Date().getTime(),
-    createdBy: userId,
+    members: [userId]
   });
-  return taskRef.key;
 }
+
+
