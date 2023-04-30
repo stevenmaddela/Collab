@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react";
 import { auth } from "@component/firebaseConfig";
-import { writeProjectData } from "@component/createSchedule";
+import { writeScheduleData } from "@component/createSchedule";
 import { useRouter } from "next/router";
 import { Button, TextField, Typography } from "@mui/material";
-import DateTimePicker from 'react-datetime-picker';
-import 'react-datetime-picker/dist/DateTimePicker.css';
-import 'react-calendar/dist/Calendar.css';
-import 'react-clock/dist/Clock.css';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
-import './styles.css';
-
+import DateTimePicker from "react-datetime-picker";
+import "react-datetime-picker/dist/DateTimePicker.css";
+import "react-calendar/dist/Calendar.css";
+import "react-clock/dist/Clock.css";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { StaticDateTimePicker } from "@mui/x-date-pickers/StaticDateTimePicker";
+import "./styles.css";
 
 export function validateTitle(inputName) {
   if (inputName == null || inputName.length == 0) {
@@ -50,8 +49,8 @@ export default function Schedule() {
       if (inputs.description == null) {
         inputs.description = "Scheduled Meeting";
       }
-      writeProjectData("users/", inputs.title, inputs.description);
-      router.push("/schedule")
+      writeScheduleData(user.uid, inputs.title, inputs.description);
+      router.push("/schedule");
       alert("meeting is scheduled"); // navigate to project page
     } else {
       alert("Invalid Title");
@@ -64,10 +63,10 @@ export default function Schedule() {
         Schedule a Meeting
       </Typography>
 
-      <form onSubmit={handleSubmit} align="center" >
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <StaticDateTimePicker className="picker" orientation="landscape" />
-    </LocalizationProvider>
+      <form onSubmit={handleSubmit} align="center">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <StaticDateTimePicker className="picker" orientation="landscape" />
+        </LocalizationProvider>
         <br />
         <TextField
           style={{ margin: "10px" }}
