@@ -1,81 +1,80 @@
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { Box, Typography } from "@mui/material";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { auth } from "@component/firebaseConfig";
-import { createTaskWithTitle} from "@component/CreateTask";
-export default function Task() {
-  
+import { createTaskWithTitle } from "@component/CreateTask";
 
-    const router = useRouter();
-    const redirectHome = () => {
-      router.push("home");
+export default function Task() {
+  const router = useRouter();
+  const redirectHome = () => {
+    router.push("home");
+  };
+  const signoutUser = () => {
+    router.push("login");
+  };
+  const [newItem, setNewItem] = useState("");
+  const [items, setItems] = useState([]);
+
+  const [showEdit, setShowEdit] = useState(-1);
+  const [updatedText, setUpdatedText] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const userId = auth.currentUser.uid;
+
+    // Create the task with the new title
+    const taskRef = await createTaskWithTitle(userId, newItem);
+
+    console.log("New task created with ID:", taskRef.key);
+
+    // Add the task to the items list
+    const task = {
+      id: taskRef.key,
+      value: newItem,
     };
-    const signoutUser = () => {
-      router.push("login");
-    };
-    const [newItem, setNewItem] = useState("");
-    const [items, setItems] = useState([]);
-  
-    const [showEdit, setShowEdit] = useState(-1);
-    const [updatedText, setUpdatedText] = useState("");
-  
-    // Helper Functions
-  
-    /* Adds a new item to the list array*/
-    function addItem() {
-      // ! Check for empty item
-      if (!newItem) {
-        alert("Press enter an item.");
-        return;
-      }
-  
-      const item = {
-        id: Math.floor(Math.random() * 1000),
-        value: newItem,
-      };
-  
-      // Add new item to items array
-      setItems((oldList) => [...oldList, item]);
-  
-      // Reset newItem back to original state
-      setNewItem("");
-    }
-  
-    /* Deletes an item based on the `item.id` key */
-    function deleteItem(id) {
-      const newArray = items.filter((item) => item.id !== id);
-      setItems(newArray);
-    }
-  
-    /* Edit an item text after creating it. */
-    function editItem(id, newText) {
-      // Get the current item
-      const currentItem = items.filter((item) => item.id === id);
-  
-      // Create a new item with same id
+    setItems((oldList) => [...oldList, task]);
+
+    // Reset newItem back to original state
+    setNewItem("");
+  };
+
+  // Helper Functions
+  /* Deletes an item based on the `item.id` key */
+  function deleteItem(id) {
+    const newArray = items.filter((item) => item.id !== id);
+    setItems(newArray);
+  }
+
+  /* Edit an item text after creating it. */
+  function editItem(id, newText) {
+    // Get the current item
+    const currentItem = items.filter((item) => item.id === id)[0];
+
+    // Update the task title in the firebase database
+    currentItem.ref.update({ title: newText }).then(() => {
+      console.log("Task title updated successfully");
+
+      // Update the task title in the local state
       const newItem = {
-        id: currentItem.id,
+        id: id,
         value: newText,
+        ref: currentItem.ref,
       };
-  
-      deleteItem(id);
-  
+
       // Replace item in the item list
-      setItems((oldList) => [...oldList, newItem]);
+      const newArray = items.map((item) =>
+        item.id === id ? newItem : item
+      );
+      setItems(newArray);
+
       setUpdatedText("");
       setShowEdit(-1);
-    }
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      const userId = auth.currentUser.uid;
-      const taskRef = await createTaskWithTitle(userId, taskTitle);
-      console.log("New task created with ID:", taskRef.key);
-      router.push('/projects/'+ projectTitle);
-    };
+    });
+  }
+
 
   
     // Main part of app
