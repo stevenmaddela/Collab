@@ -40,15 +40,14 @@ export default function Task() {
   const [updatedText, setUpdatedText] = useState("");
   const user = auth.currentUser;
   const handleChange = (e) => {
-    const name = e.target.name;
-    setInputs((values) => ({ ...values, [name]: e.target.value }));
+    setTaskTitle(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateTitle(inputs.title)) {
-      createTaskWithTitle(user.uid, inputs.taskTitle);
-      router.push("/task/" + inputs.taskTitle); // navigate to project page
+    if (validateTitle(taskTitle)) {
+      createTaskWithTitle(user.uid, taskTitle);
+      router.push("/task/" + taskTitle); // navigate to project page
     } else {
       alert("Invalid Title");
     }
@@ -112,22 +111,24 @@ export default function Task() {
       <h1>Task List</h1>
       
       {/* 2. Add new item (input) */}
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Add an item..."
-          value={newItem}
-          onChange={(e) => setNewItem(e.target.value)}
+          placeholder="Add a task..."
+          value={inputs.taskTitle}
+          onChange={handleChange}
         />
   
         {/* Add (button) */}
-        <button onClick={() => addItem()}>Add</button>
+        <button type = "add">/Add</button>
+        </form>
   
         {/* 3. List of todos (unordered list) */}
         <ul>
           {items.map((item) => {
             return (
-              <div>
-                <li key={item.id} onClick={() => setShowEdit(item.id)}>
+              <div key={item.id}>
+                <li onClick={() => setShowEdit(item.id)}>
                   {item.value}
                   <button
                     className="delete-button"
@@ -137,7 +138,7 @@ export default function Task() {
                   </button>
                 </li>
   
-                {showEdit == item.id ? (
+                {showEdit == item.id && (
                   <div>
                     <input
                       type="text"
@@ -148,13 +149,13 @@ export default function Task() {
                       Update
                     </button>
                   </div>
-                ) : null}
+                )} 
               </div>
             );
           })}
         </ul>
   
-  
+  {/*Footer*/}
   <Typography align="center" variant="h2" margin={"px10"} paddingTop={50}>
     <Button
       style={{ margin: "10px" }}
