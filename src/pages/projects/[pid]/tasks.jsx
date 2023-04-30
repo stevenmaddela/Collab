@@ -45,12 +45,19 @@ export default function Task() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateTitle(newItem)) {
-      createTaskWithTitle(user.uid, newItem);
+      const newItemId = await createTaskWithTitle(user.uid, newItem);
+      const newItemData = {
+        id: newItemId,
+        value: newItem
+      };
+      setItems((prevState) => [...prevState, newItemData]);
+      setNewItem("");
     } else {
       alert("Invalid Title");
     }
- 
   };
+  
+  
   // Helper Functions
 
   /* Adds a new item to the list array*/
@@ -120,20 +127,20 @@ export default function Task() {
       {/* 2. Add new item (input) */}
       <input
         type="text"
-        placeholder="Add an item..."
+        placeholder="Add a task..."
         value={newItem}
-        onChange={(e) => setNewItem(e.target.value)}
+        onChange={handleChange}
       />
 
       {/* Add (button) */}
-      <button onClick={() => addItem()}>Add</button>
+      <button onClick={(e) => handleSubmit(e)}>Add</button>
 
       {/* 3. List of todos (unordered list) */}
       <ul>
         {items.map((item) => {
           return (
-            <div>
-              <li key={item.id} onClick={() => setShowEdit(item.id)}>
+            <div key={item.id}>
+              <li onClick={() => setShowEdit(item.id)}>
                 {item.value}
                 <button
                   className="delete-button"
@@ -143,7 +150,7 @@ export default function Task() {
                 </button>
               </li>
 
-              {showEdit == item.id ? (
+              {showEdit == item.id &&(
                 <div>
                   <input
                     type="text"
@@ -154,7 +161,7 @@ export default function Task() {
                     Update
                   </button>
                 </div>
-              ) : null}
+              )}
             </div>
           );
         })}
