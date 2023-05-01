@@ -1,3 +1,5 @@
+import dayjs from "dayjs"; // Add this import at the beginning of your file
+
 import { useState, useEffect } from "react";
 import { auth } from "@component/firebaseConfig";
 import { writeProjectData } from "@component/rtdb_write_new_project";
@@ -37,12 +39,17 @@ export default function Schedule() {
   });
 
   const router = useRouter();
-  const [inputs, setInputs] = useState({});
+  const [inputs, setInputs] = useState({
+    datetime: dayjs(), // Initialize the datetime value as a Day.js object
+  });
   const handleChange = (event) => {
     const name = event.target.name;
     setInputs((values) => ({ ...values, [name]: event.target.value }));
   };
   const [value, onChange] = useState(new Date());
+  const handleDateTimeChange = (datetime) => {
+    setInputs((values) => ({ ...values, datetime }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -64,41 +71,15 @@ export default function Schedule() {
       </Typography>
 
       <form onSubmit={handleSubmit} align="center" >
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <StaticDateTimePicker className="picker" orientation="landscape" />
-    </LocalizationProvider>
-        <br />
-        <TextField
-          style={{ margin: "10px" }}
-          type="text"
-          value={inputs.title || ""}
-          aria-label="project title"
-          placeholder="Enter Meeting Title"
-          name="title"
-          onChange={handleChange}
-        >
-          Enter Project Title:
-        </TextField>
-        <br />
-        <TextField
-          style={{ margin: "10px" }}
-          type="text"
-          value={inputs.description || ""}
-          aria-label="project description"
-          placeholder="Enter Meeting Description"
-          name="description"
-          onChange={handleChange}
-        >
-          Enter a Brief Description:
-          <input
-            type="text"
-            value={inputs.description || ""}
-            aria-label="project description"
-            placeholder="Enter Description"
-            name="description"
-            onChange={handleChange}
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <StaticDateTimePicker
+            className="picker"
+            orientation="landscape"
+            value={inputs.datetime || new Date()}
+            onChange={handleDateTimeChange}
           />
-        </TextField>
+        </LocalizationProvider>
+        {/* ...existing TextField components... */}
         <br />
         <Button
           style={{ margin: "10px" }}
@@ -112,3 +93,4 @@ export default function Schedule() {
     </div>
   );
 }
+
