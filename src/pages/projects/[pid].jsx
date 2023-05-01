@@ -150,8 +150,8 @@ export default function Manage() {
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {cards.map((card) => (//if want to test, can change to tasks.map(task)
-              <Grid item key={card} xs={12} sm={6} md={4}>//change to {task}
+            {cards.map((card) => (
+              <Grid item key={card} xs={12} sm={6} md={4}>
                 <Card
                   sx={{
                     height: "100%",
