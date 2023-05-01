@@ -1,5 +1,4 @@
 import dayjs from "dayjs"; // Add this import at the beginning of your file
-
 import { useState, useEffect } from "react";
 import { auth } from "@component/firebaseConfig";
 import { writeScheduleData } from "@component/createSchedule";
@@ -19,18 +18,13 @@ export function validateTitle(inputName) {
   if (inputName == null || inputName.length == 0) {
     return false;
   }
-  // check for string of only spaces, tabs, or line breaks
   if (!inputName.replace(/\s/g, "").length) {
-    return false;
-  }
-
-  // check for no special characters
-  if (/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(inputName)) {
     return false;
   }
 
   return true;
 }
+
 
 export default function Schedule() {
   const user = auth.currentUser;
@@ -40,8 +34,11 @@ export default function Schedule() {
 
   const router = useRouter();
   const [inputs, setInputs] = useState({
-    datetime: dayjs(), // Initialize the datetime value as a Day.js object
-  });
+    title: "",
+    description: "",
+    datetime: dayjs()
+});
+
   const handleChange = (event) => {
     const name = event.target.name;
     setInputs((values) => ({ ...values, [name]: event.target.value }));
@@ -50,20 +47,20 @@ export default function Schedule() {
   const handleDateTimeChange = (datetime) => {
     setInputs((values) => ({ ...values, datetime }));
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (validateTitle(inputs.title)) {
       if (inputs.description == null) {
         inputs.description = "Scheduled Meeting";
       }
-      writeScheduleData(user.uid, inputs.title, inputs.description, inputs.date, inputs.time);
+      const formattedDateTime = inputs.datetime.format('YYYY-MM-DD HH:mm:ss');
+      writeScheduleData(user.uid, inputs.title, inputs.description, formattedDateTime);
       alert("meeting is scheduled");
       router.push("/home");
     } else {
       alert("Invalid Title");
     }
-  };
+};
 
   return (
     <div>
@@ -73,39 +70,21 @@ export default function Schedule() {
 
       <form onSubmit={handleSubmit} align="center" >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <StaticDateTimePicker
+            className="picker"
+            orientation="landscape"
+            value={inputs.datetime || new Date()}
+            onChange={handleDateTimeChange}
+          />
         </LocalizationProvider>
-        
         <br />
         <TextField
           style={{ margin: "10px" }}
           type="text"
           value={inputs.title || ""}
           aria-label="project title"
-          placeholder="Enter Meeting Title "
+          placeholder="Enter Meeting Title"
           name="title"
-          onChange={handleChange}
-        >
-        </TextField>
-
-        <br />
-        <TextField
-          style={{ margin: "10px" }}
-          type="text"
-          value={inputs.date || ""}
-          aria-label="project date"
-          placeholder="DD-MM-YYYY"
-          name="date"
-          onChange={handleChange}
-        >
-        </TextField>
-
-        <TextField
-          style={{ margin: "10px" }}
-          type="text"
-          value={inputs.time || ""}
-          aria-label="Project time"
-          placeholder="05:30pm"
-          name="time"
           onChange={handleChange}
         >
           Enter Project Title:
