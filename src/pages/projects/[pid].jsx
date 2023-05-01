@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter, Router } from "next/router";
 import { useEffect } from "react";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -14,9 +14,13 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Link from "@mui/material/Link";
+import Link from "next/link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import { redirect } from "next/navigation";
+import { auth } from "@component/firebaseConfig";
+import { signOut } from "firebase/auth";
+//import {db} from "@component/firebaseConfig";
+//import {getDatabase,ref,onValue, off} from "firebase/database";
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -37,6 +41,50 @@ const theme = createTheme();
 export default function Manage() {
   const router = useRouter();
   const { pid } = router.query;
+  const user = auth.currentUser;
+  //const db = getDatabase();
+
+  // useEffect(() => {
+  //   if (user == null) router.push("/login");
+  // });
+  
+  
+  
+  //useEffect(() => {
+  //  if (user == null) router.push("/login");
+
+  //  const tasksRef = ref(db, '/projects/'+ pid + '/tasks');
+
+    // Listen for changes to the tasks data
+  //  onValue(tasksRef, (snapshot) => {
+  //    const taskData = snapshot.val();
+  //    if (taskData) {
+  //      const taskList = Object.entries(taskData).map(([key, value]) => ({
+  //        id: key,
+  //        ...value,
+  //      }));
+  //      setTasks(taskList);
+  //    } else {
+  //      setTasks([]);
+  //  }
+  //});
+
+    
+  //;
+
+  const signoutUser = () => {
+    signOut(auth).then(() => {
+      router.push("/login");
+    });
+  };
+
+  const redirectTask = () => {
+    // Router.push({
+    //   pathname: "/projects/" + pid + "/tasks",
+    //   query: { projectTitle: pid },
+    // });
+    //router.push("/projects/" + pid + "/tasks");
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -44,8 +92,11 @@ export default function Manage() {
       <AppBar position="relative">
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            {pid}
+            Collab
           </Typography>
+          <Button color="inherit" onClick={signoutUser}>
+            Log Out
+          </Button>
         </Toolbar>
       </AppBar>
       <main>
@@ -73,9 +124,7 @@ export default function Manage() {
               color="text.secondary"
               paragraph
             >
-              Something short and leading about the collection below—its
-              contents, the creator, etc. Make it short and sweet, but not too
-              short so folks don&apos;t simply skip over it entirely.
+              {"" /*description */}
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -83,8 +132,18 @@ export default function Manage() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained">Main call to action</Button>
-              <Button variant="outlined">Secondary action</Button>
+              <Link
+                href={{
+                  pathname: "/projects/" + pid + "/tasks",
+                  query: { projectTitle: pid },
+                }}
+              >
+                <Button variant="contained" onClick={redirectTask}>
+                  Create Task
+                </Button>
+              </Link>
+
+              <Button variant="outlined">Schedule Meeting</Button>
             </Stack>
           </Container>
         </Box>
@@ -100,7 +159,7 @@ export default function Manage() {
                     flexDirection: "column",
                   }}
                 >
-                  <CardMedia
+                  {/* <CardMedia
                     component="img"
                     sx={{
                       // 16:9
@@ -108,15 +167,12 @@ export default function Manage() {
                     }}
                     image="https://source.unsplash.com/random"
                     alt="random"
-                  />
+                  /> */}
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      Task {card}
                     </Typography>
-                    <Typography>
-                      This is a media card. You can use this section to describe
-                      the content.
-                    </Typography>
+                    <Typography>Task description goes here.</Typography>
                   </CardContent>
                   <CardActions>
                     <Button size="small">View</Button>
