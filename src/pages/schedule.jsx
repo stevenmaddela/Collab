@@ -79,7 +79,38 @@ export default function Schedule() {
             onChange={handleDateTimeChange}
           />
         </LocalizationProvider>
-        {/* ...existing TextField components... */}
+        <br />
+        <TextField
+          style={{ margin: "10px" }}
+          type="text"
+          value={inputs.title || ""}
+          aria-label="project title"
+          placeholder="Enter Meeting Title"
+          name="title"
+          onChange={handleChange}
+        >
+          Enter Project Title:
+        </TextField>
+        <br />
+        <TextField
+          style={{ margin: "10px" }}
+          type="text"
+          value={inputs.description || ""}
+          aria-label="project description"
+          placeholder="Enter Meeting Description"
+          name="description"
+          onChange={handleChange}
+        >
+          Enter a Brief Description:
+          <input
+            type="text"
+            value={inputs.description || ""}
+            aria-label="project description"
+            placeholder="Enter Description"
+            name="description"
+            onChange={handleChange}
+          />
+        </TextField>
         <br />
         <Button
           style={{ margin: "10px" }}
