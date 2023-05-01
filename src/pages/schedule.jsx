@@ -1,16 +1,19 @@
+import dayjs from "dayjs"; // Add this import at the beginning of your file
+
 import { useState, useEffect } from "react";
 import { auth } from "@component/firebaseConfig";
 import { writeScheduleData } from "@component/createSchedule";
 import { useRouter } from "next/router";
 import { Button, TextField, Typography } from "@mui/material";
-import DateTimePicker from "react-datetime-picker";
-import "react-datetime-picker/dist/DateTimePicker.css";
-import "react-calendar/dist/Calendar.css";
-import "react-clock/dist/Clock.css";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { StaticDateTimePicker } from "@mui/x-date-pickers/StaticDateTimePicker";
-import "./styles.css";
+import DateTimePicker from 'react-datetime-picker';
+import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import 'react-clock/dist/Clock.css';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
+import './styles.css';
+
 
 export function validateTitle(inputName) {
   if (inputName == null || inputName.length == 0) {
@@ -36,12 +39,17 @@ export default function Schedule() {
   });
 
   const router = useRouter();
-  const [inputs, setInputs] = useState({});
+  const [inputs, setInputs] = useState({
+    datetime: dayjs(), // Initialize the datetime value as a Day.js object
+  });
   const handleChange = (event) => {
     const name = event.target.name;
     setInputs((values) => ({ ...values, [name]: event.target.value }));
   };
   const [value, onChange] = useState(new Date());
+  const handleDateTimeChange = (datetime) => {
+    setInputs((values) => ({ ...values, datetime }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -49,7 +57,7 @@ export default function Schedule() {
       if (inputs.description == null) {
         inputs.description = "Scheduled Meeting";
       }
-      writeScheduleData(user.uid, inputs.title, inputs.description);
+      writeScheduleData(user.uid, inputs.title, inputs.description, inputs.date, inputs.time);
       alert("meeting is scheduled");
       router.push("/home");
     } else {
@@ -63,18 +71,41 @@ export default function Schedule() {
         Schedule a Meeting
       </Typography>
 
-      <form onSubmit={handleSubmit} align="center">
+      <form onSubmit={handleSubmit} align="center" >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <StaticDateTimePicker className="picker" orientation="landscape" />
         </LocalizationProvider>
+        
         <br />
         <TextField
           style={{ margin: "10px" }}
           type="text"
           value={inputs.title || ""}
           aria-label="project title"
-          placeholder="Enter Meeting Title"
+          placeholder="Enter Meeting Title "
           name="title"
+          onChange={handleChange}
+        >
+        </TextField>
+
+        <br />
+        <TextField
+          style={{ margin: "10px" }}
+          type="text"
+          value={inputs.date || ""}
+          aria-label="project date"
+          placeholder="DD-MM-YYYY"
+          name="date"
+          onChange={handleChange}
+        >
+        </TextField>
+
+        <TextField
+          style={{ margin: "10px" }}
+          type="text"
+          value={inputs.time || ""}
+          aria-label="Project time"
+          placeholder="05:30pm"
+          name="time"
           onChange={handleChange}
         >
           Enter Project Title:
@@ -112,3 +143,4 @@ export default function Schedule() {
     </div>
   );
 }
+
