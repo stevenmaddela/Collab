@@ -19,7 +19,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { redirect } from "next/navigation";
 import { auth } from "@component/firebaseConfig";
 import { signOut } from "firebase/auth";
-
+//import {db} from "@component/firebaseConfig";
+//import {getDatabase,ref,onValue, off} from "firebase/database";
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -41,10 +42,35 @@ export default function Manage() {
   const router = useRouter();
   const { pid } = router.query;
   const user = auth.currentUser;
+  //const db = getDatabase();
 
   // useEffect(() => {
   //   if (user == null) router.push("/login");
   // });
+  
+  
+  
+  //useEffect(() => {
+  //  if (user == null) router.push("/login");
+
+  //  const tasksRef = ref(db, '/projects/'+ pid + '/tasks');
+
+    // Listen for changes to the tasks data
+  //  onValue(tasksRef, (snapshot) => {
+  //    const taskData = snapshot.val();
+  //    if (taskData) {
+  //      const taskList = Object.entries(taskData).map(([key, value]) => ({
+  //        id: key,
+  //        ...value,
+  //      }));
+  //      setTasks(taskList);
+  //    } else {
+  //      setTasks([]);
+  //  }
+  //});
+
+    
+  //;
 
   const signoutUser = () => {
     signOut(auth).then(() => {
@@ -124,8 +150,8 @@ export default function Manage() {
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+            {cards.map((card) => (//if want to test, can change to tasks.map(task)
+              <Grid item key={card} xs={12} sm={6} md={4}>//change to {task}
                 <Card
                   sx={{
                     height: "100%",
