@@ -37,7 +37,7 @@ function Copyright() {
   );
 }
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const cards = [1, 2, 3];
 
 const theme = createTheme();
 
@@ -100,7 +100,6 @@ export default function Home() {
               color="text.primary"
               gutterBottom
             >
-
               Welcome {user ? user.displayName : "user"}
             </Typography>
             <Typography

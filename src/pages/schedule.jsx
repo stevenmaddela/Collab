@@ -58,7 +58,7 @@ export default function Schedule() {
         inputs.description,
         formattedDateTime
       );
-      router.push("/home");
+      router.back();
     } else {
       alert("Invalid Title");
     }

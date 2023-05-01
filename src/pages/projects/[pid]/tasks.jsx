@@ -16,11 +16,6 @@ export function validateTitle(inputName) {
     return false;
   }
 
-  // check for no special characters
-  if (/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(inputName)) {
-    return false;
-  }
-
   return true;
 }
 
@@ -28,8 +23,8 @@ export default function Task() {
   const router = useRouter();
   const projectTitle = useSearchParams().get("projectTitle");
   console.log("projectTitle: " + projectTitle);
-  const redirectHome = () => {
-    router.push("/home");
+  const redirectBack = () => {
+    router.back();
   };
   const signoutUser = () => {
     router.push("/login");
@@ -127,61 +122,64 @@ export default function Task() {
         </AppBar>
       </Box>
 
-      <h1>Task List</h1>
-
-      {/* 2. Add new item (input) */}
-      <input
-        type="text"
-        placeholder="Add a task..."
-        value={newItem}
-        onChange={handleChange}
-      />
-
-      {/* Add (button) */}
-      <button onClick={(e) => handleSubmit(e)}>Add</button>
-
-      {/* 3. List of todos (unordered list) */}
-      <ul>
-        {items.map((item) => {
-          return (
-            <div key={item.id}>
-              <li onClick={() => setShowEdit(item.id)}>
-                {item.value}
-                <button
-                  className="delete-button"
-                  onClick={() => deleteItem(item.id)}
-                >
-                  ❌
-                </button>
-              </li>
-
-              {showEdit == item.id && (
-                <div>
-                  <input
-                    type="text"
-                    value={updatedText}
-                    onChange={(e) => setUpdatedText(e.target.value)}
-                  />
-                  <button onClick={() => editItem(item.id, updatedText)}>
-                    Update
-                  </button>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </ul>
-
-      <Typography align="center" variant="h2" margin={"px10"} paddingTop={50}>
-        <Button
-          style={{ margin: "10px" }}
-          onClick={redirectHome}
-          variant="contained"
-          color="primary"
-        >
-          Home
-        </Button>
+      <Typography align="center" variant="h2" paddingTop={"25px"}>
+        Task List
       </Typography>
+      <div align="center">
+        {/* 2. Add new item (input) */}
+        <input
+          type="text"
+          placeholder="Add a task..."
+          value={newItem}
+          onChange={handleChange}
+        />
+
+        {/* Add (button) */}
+        <button onClick={(e) => handleSubmit(e)}>Add</button>
+
+        {/* 3. List of todos (unordered list) */}
+        <ul>
+          {items.map((item) => {
+            return (
+              <div key={item.id}>
+                <li onClick={() => setShowEdit(item.id)}>
+                  {item.value}
+                  <button
+                    className="delete-button"
+                    onClick={() => deleteItem(item.id)}
+                  >
+                    ❌
+                  </button>
+                </li>
+
+                {/* {showEdit == item.id && (
+                  <div>
+                    <input
+                      type="text"
+                      value={updatedText}
+                      onChange={(e) => setUpdatedText(e.target.value)}
+                    />
+                    <button onClick={() => editItem(item.id, updatedText)}>
+                      Update
+                    </button>
+                  </div>
+                )} */}
+              </div>
+            );
+          })}
+        </ul>
+
+        <Typography align="center" variant="h2" margin={"px10"} paddingTop={50}>
+          <Button
+            style={{ margin: "10px" }}
+            onClick={redirectBack}
+            variant="contained"
+            color="primary"
+          >
+            Go Back
+          </Button>
+        </Typography>
+      </div>
     </div>
   );
 }

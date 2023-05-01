@@ -34,7 +34,7 @@ function Copyright() {
   );
 }
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const cards = [1, 2, 3];
 
 const theme = createTheme();
 
@@ -47,15 +47,13 @@ export default function Manage() {
   // useEffect(() => {
   //   if (user == null) router.push("/login");
   // });
-  
-  
-  
+
   //useEffect(() => {
   //  if (user == null) router.push("/login");
 
   //  const tasksRef = ref(db, '/projects/'+ pid + '/tasks');
 
-    // Listen for changes to the tasks data
+  // Listen for changes to the tasks data
   //  onValue(tasksRef, (snapshot) => {
   //    const taskData = snapshot.val();
   //    if (taskData) {
@@ -69,7 +67,6 @@ export default function Manage() {
   //  }
   //});
 
-    
   //;
 
   const signoutUser = () => {
@@ -78,27 +75,30 @@ export default function Manage() {
     });
   };
 
-  const redirectTask = () => {
-    // Router.push({
-    //   pathname: "/projects/" + pid + "/tasks",
-    //   query: { projectTitle: pid },
-    // });
-    //router.push("/projects/" + pid + "/tasks");
+  const redirectSchedule = () => {
+    router.push("/schedule");
   };
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar position="relative">
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Collab
-          </Typography>
-          <Button color="inherit" onClick={signoutUser}>
-            Log Out
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="relative">
+          <Toolbar>
+            <Typography
+              variant="h6"
+              color="inherit"
+              noWrap
+              sx={{ flexGrow: 1 }}
+            >
+              Collab
+            </Typography>
+            <Button color="inherit" onClick={signoutUser}>
+              Log Out
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
       <main>
         {/* Hero unit */}
         <Box
@@ -138,12 +138,12 @@ export default function Manage() {
                   query: { projectTitle: pid },
                 }}
               >
-                <Button variant="contained" onClick={redirectTask}>
-                  Create Task
-                </Button>
+                <Button variant="contained">Create Task</Button>
               </Link>
 
-              <Button variant="outlined">Schedule Meeting</Button>
+              <Button variant="outlined" onClick={redirectSchedule}>
+                Schedule Meeting
+              </Button>
             </Stack>
           </Container>
         </Box>
