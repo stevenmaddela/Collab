@@ -1,6 +1,7 @@
 # Collab
+<img width="546" alt="Screenshot 2023-05-05 013242" src="https://github.com/stevenmaddela/Collab/assets/70993825/545d9667-8c12-492c-912c-49f760d01bf5">
 =======
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) created for our CS 3354 (Software Engineering) class designed for helping teams outline projects, tasks, and project meetings.
 
 ## Getting Started
 
